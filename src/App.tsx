@@ -62,7 +62,6 @@ function App() {
           <li key={track.id} style={{border: track.id === selectedTrackId ? '1px solid orange' : 'none'}}>
             <div onClick={() => {
               setSelectedTrackId(track.id)
-              setSelectedTrack('loading')
 
                fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks/' + track.id, {
       headers: {
@@ -76,9 +75,10 @@ function App() {
       </ul>
       <div>
         <h3>Details</h3>
-        {selectedTrack === null ? 'Track is not selectd':
-        selectedTrack === "loading" ? 'Loading':
-        <div>
+        {!selectedTrack && !selectedTrackId && 'Track is not selectd'}
+        {!selectedTrack && selectedTrackId && 'Loading'}
+        {selectedTrack && selectedTrack.id !== selectedTrackId && 'Loading...'}
+        {selectedTrack && <div>
         <h4>{selectedTrack.attributes.title}</h4>
         <p>{selectedTrack.attributes.lyrics ?? 'no lyrics'}</p>
         </div>
